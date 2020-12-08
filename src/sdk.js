@@ -101,7 +101,7 @@ function list(params) {
     appid
   } = getOptions();
   return request('/dss/list', {
-    appid,
+    appid: params.appid || appid,
     ...params
   });
 }
@@ -110,7 +110,7 @@ function add(params) {
     appid
   } = getOptions();
   return request('/dss/add', {
-    appid,
+    appid: params.appid || appid,
     ...params
   });
 }
@@ -123,7 +123,7 @@ function set(params) {
     data
   } = params;
   return request('/dss/set', {
-    appid,
+    appid: params.appid || appid,
     id,
     ...data
   });
@@ -133,17 +133,17 @@ function del(params) {
     appid
   } = getOptions();
   return request('/dss/del', {
-    appid,
+    appid: params.appid || appid,
     ...params
   });
 }
-function get(paranms) {
+function get(params) {
   const {
     appid
   } = getOptions();
   return request('/dss/get', {
-    appid,
-    ...paranms
+    appid: params.appid || appid,
+    ...params
   });
 }
 
