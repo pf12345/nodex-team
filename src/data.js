@@ -1,97 +1,100 @@
 'use strict';
 
-const nodexSdk = require("./sdk");
+const sdk = require("./sdk");
 const SERVICE_NAME = 'nodex-team';
-const setSdkOption = (header) => {
-  const { appid, appsecret: appSecret } = header;
-  nodexSdk.init({
+
+exports.init = async function (args) {
+  const { appid, appSecret } = args;
+  sdk.init({
     appid,
     appSecret
   })
-}
-
-exports.init = async function (args) { 
-  
 };
 
-exports.createGroup = async function(header, data) {
-  setSdkOption(header);
-  return await nodexSdk.dss.add({
+exports.createGroup = async function (header, data) {
+  const { appid } = header;
+  return await sdk.dss.add({
     ...data,
+    appid,
     dataType: `${SERVICE_NAME}-group`
   });
 }
 
-exports.updateGroup = async function(header, {id, data}) {
-  setSdkOption(header);
-  return await nodexSdk.dss.set({id, data});
+exports.updateGroup = async function (header, { id, data }) {
+  const { appid } = header;
+  return await sdk.dss.set({ appid, id, data });
 }
 
-exports.deleteGroup = async function(header, {id}) {
-  setSdkOption(header);
-  const result = await nodexSdk.dss.del({ id });
+exports.deleteGroup = async function (header, { id }) {
+  const { appid } = header;
+  const result = await sdk.dss.del({ appid, id });
   return !!result;
 }
 
-exports.getGroupListByGid = async function(header, data) {
-  setSdkOption(header);
-  return await nodexSdk.dss.list({ 
+exports.getGroupListByGid = async function (header, data) {
+  const { appid } = header;
+  return await sdk.dss.list({
+    appid,
     ...data,
     query: {
       ...data.query,
       gid: data.gid,
       dataType: `${SERVICE_NAME}-group`
-    } 
+    }
   });
 }
 
-exports.getMemberListByGid = async function(header, {gid}) {
-  setSdkOption(header);
-  return await nodexSdk.dss.list({
+exports.getMemberListByGid = async function (header, { gid }) {
+  const { appid } = header;
+  return await sdk.dss.list({
+    appid,
     query: {
       gids: gid,
       dataType: `${SERVICE_NAME}-member`
-    } 
+    }
   });
 }
 
-exports.createMember = async function(header, data) {
-  setSdkOption(header);
-  return await nodexSdk.dss.add({
+exports.createMember = async function (header, data) {
+  const { appid } = header;
+  return await sdk.dss.add({
+    appid,
     ...data,
     dataType: `${SERVICE_NAME}-member`
   });
 }
 
-exports.deleteMember = async function(header, {id}) {
-  setSdkOption(header);
-  return await nodexSdk.dss.del({ id });
+exports.deleteMember = async function (header, { id }) {
+  const { appid } = header;
+  return await sdk.dss.del({ appid, id });
 }
 
-exports.updateMember = async function(header, {id, data}) {
-  setSdkOption(header);
-  return await nodexSdk.dss.set({ id, data});
+exports.updateMember = async function (header, { id, data }) {
+  const { appid } = header;
+  return await sdk.dss.set({ appid, id, data });
 }
 
-exports.addMemberToGroup = async function(header, {uid, gid}) {
-  setSdkOption(header);
-  const result = await nodexSdk.dss.get({ id: uid });
+exports.addMemberToGroup = async function (header, { uid, gid }) {
+  const { appid } = header;
+  const result = await sdk.dss.get({ id: uid });
   const { gids = [] } = result && result.data || {};
-  if(gids.indexOf(gid) < 0) {
+  if (gids.indexOf(gid) < 0) {
     gids.push(gid);
   }
-  await nodexSdk.dss.set({
+  await sdk.dss.set({
+    appid,
     id: uid,
     data: {
       gids
     }
   });
-  return await nodexSdk.dss.get({ id: uid });
+  return await sdk.dss.get({ id: uid });
 }
 
-exports.listMember = async function(header, data) {
-  setSdkOption(header);
-  const list = await nodexSdk.dss.list({
+exports.listMember = async function (header, data) {
+  const { appid } = header;
+  const list = await sdk.dss.list({
+    appid,
     ...data,
     query: {
       ...data.query,

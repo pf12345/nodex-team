@@ -1,12 +1,6 @@
 'use strict';
 const { runtime, libs } = nodex;
 const { fmt } = libs;
-const { data: dataRunTime } = runtime;
-
-exports.init = async function (args) { 
-  console.log('logic init.');
-  console.log('logic init args:', args);
-};
 
 /**
  * 添加部门
@@ -17,7 +11,7 @@ exports.init = async function (args) {
  */
 exports.createGroup = async function({ header, name, gid, ...otherParams }) {
   fmt.required(name, 'string', 2, 64);
-  return await dataRunTime.createGroup(header, {name, gid, ...otherParams});
+  return await runtime.data.createGroup(header, {name, gid, ...otherParams});
 }
 
 /**
@@ -27,16 +21,10 @@ exports.createGroup = async function({ header, name, gid, ...otherParams }) {
  */
 exports.updateGroup = async function({header, id, data}) {
   fmt.required(id, 'word', 2, 64);
-  if(data.hasOwnProperty("name")) {
-    fmt.required(data.name, 'string', 2, 64);
-  }
-  if(data.hasOwnProperty("tid")) {
-    fmt.required(data.tid, 'word', 2, 64);
-  }
-  if(data.hasOwnProperty("gid")) {
-    fmt.required(data.gid, 'word', 2, 64);
-  }
-  return await dataRunTime.updateGroup(header, {id, data});
+  fmt.optional(data.name, 'string', 2, 64);
+  fmt.optional(data.tid, 'word', 2, 64);
+  fmt.optional(data.gid, 'word', 2, 64);
+  return await runtime.data.updateGroup(header, {id, data});
 }
 
 /**
@@ -46,7 +34,7 @@ exports.updateGroup = async function({header, id, data}) {
  */
 exports.deleteGroup = async function({header, id}) {
   fmt.required(id, 'word', 2, 64);
-  return await dataRunTime.deleteGroup(header, { id });
+  return await runtime.data.deleteGroup(header, { id });
 }
 
 /**
@@ -55,7 +43,7 @@ exports.deleteGroup = async function({header, id}) {
  */
 exports.getGroupListByGid = async function({header, gid, ...otherParams}) {
   fmt.required(gid, 'word', 2, 64);
-  return await dataRunTime.getGroupListByGid(header, { gid, ...otherParams });
+  return await runtime.data.getGroupListByGid(header, { gid, ...otherParams });
 }
 
 /**
@@ -64,7 +52,7 @@ exports.getGroupListByGid = async function({header, gid, ...otherParams}) {
  */
 exports.getMemberListByGid = async function({header, gid}) {
   fmt.required(gid, 'word', 2, 64);
-  return await dataRunTime.getMemberListByGid(header, { gid });
+  return await runtime.data.getMemberListByGid(header, { gid });
 }
 
 /**
@@ -73,7 +61,7 @@ exports.getMemberListByGid = async function({header, gid}) {
  */
 exports.createMember = async function({header, name, ...otherParams}) {
   fmt.required(name, 'string', 2, 64);
-  return await dataRunTime.createMember(header, {name, ...otherParams});
+  return await runtime.data.createMember(header, {name, ...otherParams});
 }
 
 /**
@@ -82,10 +70,8 @@ exports.createMember = async function({header, name, ...otherParams}) {
  */
 exports.updateMember = async function({header, id, data}) {
   fmt.required(id, 'word', 2, 64);
-  if(data.hasOwnProperty("name")) {
-    fmt.required(data.name, 'string', 2, 64);
-  }
-  return await dataRunTime.updateMember(header, {id, data});
+  fmt.optional(data.name, 'string', 2, 64);
+  return await runtime.data.updateMember(header, {id, data});
 }
 
 /**
@@ -94,7 +80,7 @@ exports.updateMember = async function({header, id, data}) {
  */
 exports.deleteMember = async function({header, id}) {
   fmt.required(id, 'word', 2, 64);
-  return await dataRunTime.deleteMember(header, {id});
+  return await runtime.data.deleteMember(header, {id});
 }
 
 /**
@@ -104,7 +90,7 @@ exports.deleteMember = async function({header, id}) {
 exports.addMemberToGroup = async function({header, uid, gid}) {
   fmt.required(uid, 'word', 2, 64);
   fmt.required(gid, 'word', 2, 64);
-  return await dataRunTime.addMemberToGroup(header, {uid, gid});
+  return await runtime.data.addMemberToGroup(header, {uid, gid});
 }
 
 /**
@@ -112,5 +98,5 @@ exports.addMemberToGroup = async function({header, uid, gid}) {
  * @param {*} params 
  */
 exports.listMember = async function({header, ...otherParams}) {
-  return await dataRunTime.listMember(header, otherParams);
+  return await runtime.data.listMember(header, otherParams);
 }

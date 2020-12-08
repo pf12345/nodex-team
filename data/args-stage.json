@@ -6,7 +6,9 @@
       "user": "root",
       "password": "root",
       "database": "test"
-    }
+    },
+    "appid": "0006d779712400000004",
+    "appSecret": "b73e3a504ecfa6007a4f8573c2f0c895"
   },
   "logic": {
     
