@@ -13,10 +13,11 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
-    "nodex-cli": "^1.1.0",
-    "pm2": "^4.5.0",
     "axios": "^0.21.0",
-    "js-md5": "^0.7.3"
+    "js-md5": "^0.7.3",
+    "node-dss-api-sdk": "^0.0.1",
+    "nodex-cli": "^1.1.0",
+    "pm2": "^4.5.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.2",

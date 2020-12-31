@@ -1,6 +1,6 @@
 'use strict';
 
-const sdk = require("./sdk");
+const sdk = require("node-dss-api-sdk");
 const SERVICE_NAME = 'nodex-team';
 
 exports.init = async function (args) {
